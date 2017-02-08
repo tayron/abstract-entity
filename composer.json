@@ -1,0 +1,22 @@
+{
+    "name": "tayron/abstract-entity",
+    "description": "Classe abstrata para ser extendida por entidades que venha poder expor seus atributos no formado de xml, string, array e json.",
+    "version": "1.0.0",
+    "type": "entity",
+    "homepage": "https://github.com/tayron/abstract-entity",
+    "authors": [
+        {
+            "name": "Tayron Miranda",
+            "email": "dev@tayron.com.br"
+        }
+    ],    
+    "require": {
+        "php": ">=5.4"       
+    },
+    "autoload": {
+        "psr-4": {
+            "Tayron\\": "\\"
+        }
+    }      
+
+}
