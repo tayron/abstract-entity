@@ -15,7 +15,7 @@ formado de xml, string, array e json.
 ```sh
     "require": {
         ...
-        "tayron/abstract-entity" : "dev-master"
+        "tayron/abstract-entity" : "1.0.0"
         ... 
     },    
 ```
