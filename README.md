@@ -1,4 +1,4 @@
-## AbstractEntity 1.0.0
+## AbstractEntity
 
 Classe abstrata para ser extendida por entidades que venha poder expor seus atributos no 
 formado de xml, string, array e json.
@@ -15,7 +15,7 @@ formado de xml, string, array e json.
 ```sh
     "require": {
         ...
-        "tayron/abstract-entity" : "1.0.0"
+        "tayron/abstract-entity" : "dev-master"
         ... 
     },    
 ```
