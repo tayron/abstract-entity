@@ -1,6 +1,4 @@
 <?php
-namespace Tayron;
-
 /**
  * Classe abstrata que disponibiliza recurso para retornar os atributos da classe
  * como xml, json e string
@@ -9,6 +7,22 @@ namespace Tayron;
  */
 class AbstractEntity 
 {
+    private $attributeWithHtml = array();
+    
+    /**
+     * AbstractEntity::setAttributeWithHtml
+     * 
+     * Método que armazena atributos que possui html em seu conteúdo
+     * 
+     * @return void
+     */    
+    public function setAttributeWithHtml($attribute)
+    {
+        array_push($this->attributeWithHtml, $attribute);
+    }
+    
+    
+    
     /**
      * AbstractEntity::toXml
      * 
@@ -16,10 +30,11 @@ class AbstractEntity
      * 
      * @return xml XML com os atributos da classe pai
      */
-    public function toXml()
+    public function toXml($nameItem = null)
     {
         $attributes = $this->getDaughterClassProperties();        
-        $className = end(explode('\\', get_class($this)));        
+        $listaNome = explode('\\', get_class($this));
+        $className = is_null($nameItem) ? end($listaNome) : $nameItem;
         $xml = "<" . $className . "> \n";
         
         foreach($attributes as $item){
@@ -27,11 +42,13 @@ class AbstractEntity
             $methodGet = 'get' . ucfirst($attribute);            
             $value = $this->$methodGet();
             
-            $xml .= "\t <$attribute>$value</$attribute> \n";
+            if(in_array($attribute, $this->attributeWithHtml)){
+                $xml .= "\t <$attribute><![CDATA[" . $value . "]]></$attribute> \n";    
+            }else{
+                $xml .= "\t <$attribute>$value</$attribute> \n";    
+            }
         }
-
         $xml .= "</" . $className . "> \n";
-
         return $xml;
     }
     
@@ -64,10 +81,8 @@ class AbstractEntity
             $value = $this->$methodGet();
             $listAttributes[$attribute] = $value;
         }
-
         return $listAttributes;
     }
-
     /**
      * AbstractEntity::__toString
      * 
@@ -98,7 +113,6 @@ class AbstractEntity
             $value = $this->$methodGet();
             $text .= "$attribute: $value, ";
         }
-
         return $text;        
     }
     
