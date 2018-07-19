@@ -1,4 +1,8 @@
 <?php
+if(!defined('TAB')){
+    define('TAB', "\t");
+}
+    
 /**
  * Abstract class that provides resource to return class attributes like xml, 
  * json and string
@@ -38,7 +42,7 @@ class AbstractEntity
         $attributes = $this->getDaughterClassProperties();        
         $listaNome = explode('\\', get_class($this));
         $className = is_null($nameItem) ? end($listaNome) : $nameItem;
-        $xml = "<" . $className . "> \n";
+        $xml = "<" . $className . ">" . PHP_EOL;
         
         foreach($attributes as $item){
             $attribute = $item->name;
@@ -46,12 +50,12 @@ class AbstractEntity
             $value = $this->$methodGet();
             
             if(in_array($attribute, $this->attributeWithHtml)){
-                $xml .= "\t <$attribute><![CDATA[" . $value . "]]></$attribute> \n";    
+                $xml .= TAB . "<$attribute><![CDATA[" . $value . "]]></$attribute>"  . PHP_EOL;    
             }else{
-                $xml .= "\t <$attribute>$value</$attribute> \n";    
+                $xml .= TAB . "<$attribute>$value</$attribute>" . PHP_EOL;    
             }
         }
-        $xml .= "</" . $className . "> \n";
+        $xml .= "</" . $className . ">"  . PHP_EOL;
         return $xml;
     }
     
