@@ -47,8 +47,13 @@ class AbstractEntity
         foreach($attributes as $item){
             $attribute = $item->name;
             $methodGet = 'get' . ucfirst($attribute);            
-            $value = $this->$methodGet();
             
+            if(method_exists($this, $methodGet)){
+                throw new \BadMethodCallException('Please, implement the get method: ' . $methodGet);
+            }
+            
+            $value = $this->$methodGet();
+                    
             if(in_array($attribute, $this->attributeWithHtml)){
                 $xml .= TAB . "<$attribute><![CDATA[" . $value . "]]></$attribute>"  . PHP_EOL;    
             }else{
