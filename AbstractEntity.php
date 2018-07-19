@@ -1,18 +1,23 @@
 <?php
 /**
- * Classe abstrata que disponibiliza recurso para retornar os atributos da classe
- * como xml, json e string
+ * Abstract class that provides resource to return class attributes like xml, 
+ * json and string
  *
- * @author Tayron Miranda <dev@tayron.com.br>
+ * @author Tayron Miranda <contato@tayron.com.br>
  */
 class AbstractEntity 
 {
+    /**
+     * Store attribute name with HTML content
+     * 
+     * @var array
+     */
     private $attributeWithHtml = array();
     
     /**
      * AbstractEntity::setAttributeWithHtml
      * 
-     * Método que armazena atributos que possui html em seu conteúdo
+     * Store attribute name with HTML content
      * 
      * @return void
      */    
@@ -21,14 +26,12 @@ class AbstractEntity
         array_push($this->attributeWithHtml, $attribute);
     }
     
-    
-    
     /**
      * AbstractEntity::toXml
      * 
-     * Método que retorna os atributos da classe filha na estrutura de xml
+     * Return the class attributes like XML
      * 
-     * @return xml XML com os atributos da classe pai
+     * @return string XML with class attributes
      */
     public function toXml($nameItem = null)
     {
@@ -55,9 +58,9 @@ class AbstractEntity
     /**
      * AbstractEntity::toJson
      * 
-     * Método que retorna os atributos da classe filha na estrutura de json
+     * Return the class attributes like Json
      * 
-     * @return json Json com os atributos da classe pai
+     * @return string Json with class attributes
      */
     public function toJson()
     {
@@ -65,11 +68,11 @@ class AbstractEntity
     }
     
     /**
-     * AbstractEntity::toArray
+     * AbstractEntity::toJson
      * 
-     * Método que retorna os atributos da classe filha na estrutura de array
+     * Return the class attributes like array
      * 
-     * @return ArrayObject ArrayObject com os atributos da classe pai
+     * @return array array with class attributes
      */
     public function toArray()
     {
@@ -83,25 +86,26 @@ class AbstractEntity
         }
         return $listAttributes;
     }
+    
     /**
      * AbstractEntity::__toString
      * 
-     * Método que retorna os atributos da classe filha como string
+     * Return the class attributes like string
      * 
-     * @return string String com os atributos da classe pai
-     */    
+     * @return string string with class attributes
+     */  
     public function __toString() 
     {
         return $this->toString();
     }    
     
     /**
-     * AbstractEntity::__toString
+     * AbstractEntity::toString
      * 
-     * Método que retorna os atributos da classe filha como string
+     * Return the class attributes like string
      * 
-     * @return string String com os atributos da classe pai
-     */
+     * @return string string with class attributes
+     */  
     public function toString()
     {
         $attributes = $this->getDaughterClassProperties();        
@@ -119,9 +123,9 @@ class AbstractEntity
     /**
      * AbstractEntity::getDaughterClassProperties
      * 
-     * Método que retorna lista com as propriedades da classe filha
+     * Return the list of the doughter class attributes
      * 
-     * @return array Lista com as propriedades da classe
+     * @return array
      */
     private function getDaughterClassProperties()
     {
