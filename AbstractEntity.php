@@ -121,6 +121,19 @@ class AbstractEntity
     }
     
     /**
+     * 
+     * AbstractEntity::toSerialize
+     * 
+     * Return the class serialized
+     * 
+     * @return string the class serialized
+     */      
+    public function toSerialize()
+    {
+        return serialize($this);
+    }    
+    
+    /**
      * AbstractEntity::getDaughterClassProperties
      * 
      * Return the list of the doughter class attributes
