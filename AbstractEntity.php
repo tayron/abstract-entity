@@ -40,28 +40,27 @@ class AbstractEntity
     public function toXml($nameItem = null)
     {
         $attributes = $this->getDaughterClassProperties();        
-        $listaNome = explode('\\', get_class($this));
-        $className = is_null($nameItem) ? end($listaNome) : $nameItem;
-        $xml = "<" . $className . ">" . PHP_EOL;
+        $nameList = explode('\\', get_class($this));
+        $className = is_null($nameItem) ? end($nameList) : $nameItem;
         
+        $tagXML = '<%s>%s%s</%s>';
+        $tagItem = '<%s>%s</%s>';
+        $tagItemCdata = '<%s><![CDATA[%s]]></%s>';
+        
+        $itemXml = '';        
         foreach($attributes as $item){
             $attribute = $item->name;
-            $methodGet = 'get' . ucfirst($attribute);            
+            $methodGet = 'get' . ucfirst($attribute);    
             
-            if(method_exists($this, $methodGet)){
+            if(!method_exists($this, $methodGet)){
                 throw new \BadMethodCallException('Please, implement the get method: ' . $methodGet);
             }
             
-            $value = $this->$methodGet();
-                    
-            if(in_array($attribute, $this->attributeWithHtml)){
-                $xml .= TAB . "<$attribute><![CDATA[" . $value . "]]></$attribute>"  . PHP_EOL;    
-            }else{
-                $xml .= TAB . "<$attribute>$value</$attribute>" . PHP_EOL;    
-            }
+            $value = $this->$methodGet();            
+            $tagItemToUse = (in_array($attribute, $this->attributeWithHtml)) ? $tagItemCdata : $tagItem;
+            $itemXml .= TAB . sprintf($tagItemToUse, $attribute, $value, $attribute) . PHP_EOL;
         }
-        $xml .= "</" . $className . ">"  . PHP_EOL;
-        return $xml;
+        return sprintf($tagXML, $className, PHP_EOL, $itemXml, $className);
     }
     
     /**
