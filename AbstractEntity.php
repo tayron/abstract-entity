@@ -76,13 +76,33 @@ class AbstractEntity
     }
     
     /**
-     * AbstractEntity::toJson
+     * AbstractEntity::toArray
+     * 
+     * Return the list with object data
+     * 
+     * @return array array with class attributes
+     */
+    public function toArray()
+    {
+        $attributes = $this->getDaughterClassProperties();        
+        $listAttributes = [];
+        foreach($attributes as $propriedade){
+            $attribute = $propriedade->name;
+            $methodGet = 'get' . ucfirst($attribute);            
+            $value = $this->$methodGet();
+            $listAttributes[$attribute] = $value;
+        }
+        return $listAttributes;
+    }    
+    
+    /**
+     * AbstractEntity::toArrayObject
      * 
      * Return the class attributes like array
      * 
      * @return array array with class attributes
      */
-    public function toArray()
+    public function toArrayObject()
     {
         $attributes = $this->getDaughterClassProperties();        
         $listAttributes = new \ArrayObject();        
