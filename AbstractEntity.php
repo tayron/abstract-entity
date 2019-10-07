@@ -84,16 +84,39 @@ class AbstractEntity
      */
     public function toArray()
     {
-        $attributes = $this->getDaughterClassProperties();        
+        $attributes = $this->getDaughterClassProperties();
         $listAttributes = [];
-        foreach($attributes as $propriedade){
+        foreach ($attributes as $propriedade) {
             $attribute = $propriedade->name;
-            $methodGet = 'get' . ucfirst($attribute);            
+            $methodGet = 'get' . ucfirst($attribute);
             $value = $this->$methodGet();
-            $listAttributes[$attribute] = $value;
+            
+            $listAttributes[$attribute] = $this->getPropertyValue($value);
         }
         return $listAttributes;
-    }    
+    }
+
+    /**
+     * AbstractEntity::getPropertyValue
+     * 
+     * Return the value from value from property
+     * 
+     * @return mixed Value from property
+     */    
+    private function getPropertyValue($property)
+    {
+        if (is_array($property)) {
+            $arrayValue = array();
+
+            foreach ($property as $value) {
+                $arrayValue[] = $value->toArray();
+            }
+
+            return $arrayValue;
+        }
+
+        return is_object($property) ? $property->toArray() : $property;
+    } 
     
     /**
      * AbstractEntity::toArrayObject
