@@ -72,7 +72,7 @@ class AbstractEntity
      */
     public function toJson()
     {
-        return json_encode((array)$this);
+        return json_encode($this->toArray());
     }
     
     /**
