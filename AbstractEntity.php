@@ -103,18 +103,16 @@ class AbstractEntity
      * 
      * @return mixed Value from property
      */    
-    private function getPropertyValue($property)
+    private function getArrayPropertyValue($property)
     {
         if (is_array($property)) {
             $arrayValue = array();
-
-            foreach ($property as $value) {
-                $arrayValue[] = $value->toArray();
+            foreach ($property as $key => $value) {
+                $arrayValue[$key] = is_object($value) 
+                    ? $value->toArray() : $value;
             }
-
             return $arrayValue;
         }
-
         return is_object($property) ? $property->toArray() : $property;
     } 
     
